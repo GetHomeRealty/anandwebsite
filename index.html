@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GHR Agent Website Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Get Home Realty brand: red, white and black (from the logo) */
+  --red:#E31B23; --red-dark:#B5121B; --red-deep:#7E0A10; --black:#161616; --gold:#fff;
+  --accent:var(--red); --deep:#1a1a1a;
+  --red-grad:linear-gradient(120deg,var(--red),var(--red-deep));   /* one red gradient for every dark background */
+  --ink:#222; --muted:#666; --line:#ececec; --bg:#fbf6f6; --white:#fff;
+  --radius:14px; --shadow:0 10px 30px rgba(60,0,4,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{font-family:Montserrat,system-ui,sans-serif;color:var(--ink);background:var(--white);line-height:1.6;padding-top:88px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h2.sec{font-family:"Playfair Display",Georgia,serif;font-size:clamp(28px,4vw,40px);color:var(--deep);line-height:1.2}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px;display:block}
+section{padding:60px 0}
+.center{text-align:center}
+.lead{color:var(--muted);max-width:640px;margin:10px auto 0}
+
+/* Header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);box-shadow:0 2px 14px rgba(0,0,0,.06)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:88px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .bar{width:3px;height:42px;background:var(--accent);border-radius:2px}
+.brand .nm{font-size:20px;color:var(--deep);line-height:1.1}
+.brand .nm b{font-weight:800}
+.brand .ds{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.brand .ghr{border-left:2px solid var(--line);padding-left:18px;margin-left:6px}
+.brand .ghr img{height:64px;width:auto;filter:saturate(1.15) contrast(1.1) drop-shadow(0 1px 1px rgba(0,0,0,.18))}
+nav ul{display:flex;gap:28px;list-style:none;font-size:14px;font-weight:600}
+nav ul a{color:var(--deep);position:relative;padding:6px 0}
+nav ul a:after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:.25s}
+nav ul a:hover:after{width:100%}
+nav ul a{cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+nav li.dd{position:relative}
+nav .sub{display:none;position:absolute;top:100%;left:-16px;min-width:200px;background:#fff;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--line);padding:8px 0;flex-direction:column;gap:0}
+nav li.dd:hover .sub,nav li.dd.open .sub{display:flex}
+nav .sub a{display:block;padding:9px 18px;font-weight:500}
+nav .sub a:after{display:none}
+nav .sub a:hover{background:var(--bg);color:var(--accent)}
+nav ul a.cur{color:var(--accent)}
+.page-banner{background:linear-gradient(120deg,rgb(150,30,24),rgb(130,23,18) 55%,rgb(108,18,14));color:#fff;padding:46px 0 52px;text-align:center}
+.page-banner h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(32px,5vw,48px)}
+.page-banner p{color:#fff;opacity:.95;font-weight:500;margin-top:6px}
+.page-banner h1{text-shadow:none}
+.info-list{list-style:none;margin-top:6px}
+.info-list li{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.info-list li:last-child{border:0}
+.info-list .ic{width:42px;height:42px;flex:none;border-radius:10px;background:var(--accent);display:grid;place-items:center}
+.info-list .ic svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2}
+.info-list b{display:block;color:var(--deep);font-size:14px}
+.info-list span,.info-list a{font-size:14px;color:var(--muted)}
+[hidden]{display:none!important}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:8px}
+.burger i{display:block;width:24px;height:2px;background:var(--deep);margin:5px 0;border-radius:2px}
+
+/* Hero */
+.hero{position:relative;min-height:580px;overflow:hidden;color:#fff;display:flex;align-items:center}
+.hero svg.sky{position:absolute;inset:0;width:100%;height:100%}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,18,36,.35),rgba(10,18,36,0) 55%)}
+.hero-inner{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1fr 1.1fr;align-items:end;min-height:580px}
+.agent-photo{align-self:end;height:560px;display:flex;align-items:flex-end;justify-content:center}
+.agent-photo img,.agent-photo svg{height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 20px 40px rgba(0,0,0,.35))}.hero-text{align-self:center;padding:30px 0 50px}
+.hero-text .hi{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#f3d892;font-weight:600}
+.hero-text h1{font-weight:300;font-size:clamp(40px,6vw,68px);line-height:1.05;margin:10px 0 6px}
+.hero-text h1 b{font-weight:800}
+.hero-text .role{font-size:20px;opacity:.92}
+.hero-text .areas{margin-top:14px;font-size:14px;opacity:.85}
+.cta-row{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:10px;font-weight:700;font-size:14px;border:0;cursor:pointer;transition:.2s;font-family:inherit}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.btn-light{background:#fff;color:var(--red)}
+.btn-light:hover{transform:translateY(-2px)}
+.btn-ghost{background:transparent;border:1.5px solid rgba(255,255,255,.6);color:#fff}
+
+/* Property finder */
+#finder{background:var(--bg)}
+.cities{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+.city{position:relative;border-radius:var(--radius);overflow:hidden;height:190px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;box-shadow:var(--shadow);transition:.3s}
+.city:hover{transform:translateY(-6px)}
+.city svg.bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.city > *:not(svg){position:relative;z-index:1}
+.city > img.bg,.city > .tint{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.city > img.bg{object-fit:cover;transition:transform .6s}
+.city:hover > img.bg{transform:scale(1.06)}
+.city h3,.city p{text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.city h3{font-size:22px;font-weight:700}
+.city p{font-size:13px;opacity:.9;display:flex;align-items:center;gap:6px}
+.city .go{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;transition:.3s}
+.city:hover .go{background:var(--accent)}
+.finder-bar{margin:24px auto 0;max-width:720px;display:flex;background:#fff;border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.finder-bar input{flex:1;border:0;padding:18px 20px;font:inherit;font-size:15px;outline:none}
+.finder-bar button{border-radius:0}
+.note{font-size:12px;color:var(--muted);margin-top:14px}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+.about-card{position:relative;border-radius:20px;background:linear-gradient(160deg,#f7f8fb,#e9edf3);border:1px solid var(--line);height:460px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.about-card:before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:var(--accent);opacity:.12;top:-80px;right:-80px}
+.about-card .ph{height:92%;position:relative}
+.about-card .ph img,.about-card .ph svg{height:100%;width:auto}.about-card .tag{position:absolute;left:20px;bottom:20px;background:#fff;color:var(--deep);border-radius:12px;padding:12px 16px;font-size:13px;font-weight:600;box-shadow:var(--shadow)}
+.about-card .tag b{display:block;color:var(--accent);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.about-text p{color:var(--muted);margin-top:16px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.fact{border:1px solid var(--line);border-radius:12px;padding:16px}
+.fact b{display:block;color:var(--deep);font-size:15px}
+.fact span{font-size:12px;color:var(--muted)}
+
+/* Services */
+#services{background:var(--red-grad);color:#fff}
+#services h2.sec{color:#fff}
+#services .lead{color:rgba(255,255,255,.85)}
+#services .eyebrow{color:#fff;opacity:.85}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:28px}
+.svc-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:var(--radius);padding:28px 24px;transition:.3s}
+.svc-card:hover{background:rgba(255,255,255,.16);transform:translateY(-4px)}
+.svc-card .ic{width:50px;height:50px;border-radius:12px;background:#fff;display:grid;place-items:center;margin-bottom:18px}
+.svc-card .ic svg{width:24px;height:24px;stroke:var(--red)}
+.svc-card h3{font-size:17px;margin-bottom:8px}
+.svc-card p{font-size:13.5px;color:rgba(255,255,255,.85)}
+
+/* Testimonials */
+.tst-wrap{position:relative;max-width:820px;margin:24px auto 0}
+.tst{display:none;background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 40px 28px;box-shadow:var(--shadow);text-align:center}
+.tst.on{display:block;animation:fade .5s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.tst .q{font-family:"Playfair Display",Georgia,serif;font-size:60px;color:var(--accent);line-height:.6;height:30px}
+.tst p{font-size:17px;color:var(--ink);margin:10px 0 18px}
+.tst .who{font-weight:700;color:var(--deep)}
+.tst .stars{color:var(--red);letter-spacing:3px}
+.tst .about{font-size:12.5px;color:var(--muted);margin-top:4px}
+.tst .about a{color:var(--accent);font-weight:600}
+.tst.placeholder p{color:var(--muted);font-style:italic}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:22px}
+.dots:empty{display:none}
+.dots button{width:10px;height:10px;border-radius:50%;border:0;background:var(--line);cursor:pointer}
+.dots button.on{background:var(--accent);width:28px;border-radius:6px}
+
+/* Mortgage + Contact */
+#tools{background:var(--bg)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px;align-items:stretch}
+.panel{background:#fff;border-radius:20px;padding:34px;box-shadow:var(--shadow);display:flex;flex-direction:column}#mortgage .note{margin-top:auto;padding-top:14px}
+.mbreak{list-style:none;margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:4px 16px}
+.mbreak li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;font-size:13.5px;color:var(--muted)}
+.mbreak li + li{border-top:1px solid var(--line)}
+.mbreak b{color:var(--deep);font-weight:700;white-space:nowrap}
+.panel h3{font-size:22px;color:var(--deep);margin-bottom:4px}
+.panel .sub{font-size:13px;color:var(--muted);margin-bottom:22px}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.03em}
+input,select,textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;font-size:14px;color:var(--ink);background:#fff;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.field{margin-bottom:14px}
+.result{margin-top:18px;background:var(--red-grad);color:#fff;border-radius:14px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.result b{font-size:30px}
+.result small{display:block;opacity:.75;font-size:12px}
+.consent{font-size:11.5px;color:var(--muted);margin:12px 0 18px;line-height:1.5}
+.ok.err{background:#fdecec;color:#9b1016}
+.ok{display:none;margin-top:14px;padding:14px;border-radius:10px;background:#eaf6ee;color:#1d6b38;font-size:14px;font-weight:600}
+
+/* Footer */
+footer{background:var(--black);border-top:4px solid var(--red);color:rgba(255,255,255,.8);padding:50px 0 0;font-size:14px}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px}
+footer h4{color:#fff;font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+footer li{list-style:none;margin-bottom:9px}
+footer a:hover{color:#fff}
+.f-logo{display:block;margin-bottom:22px}
+.f-logo img{width:100%;max-width:300px;height:auto}
+.f-brand .nm{font-size:22px;color:#fff}
+.f-brand .nm b{font-weight:800}
+.socials{display:flex;gap:10px;margin-top:16px}
+.socials a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center}
+.socials a:hover{background:var(--accent)}
+.socials svg{width:16px;height:16px;fill:#fff}
+.legal{border-top:1px solid rgba(255,255,255,.1);margin-top:34px;padding:20px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:rgba(255,255,255,.55)}
+.tagline{color:var(--gold);font-family:"Playfair Display",Georgia,serif;font-style:italic;margin-top:8px}
+
+
+/* Listings */
+.ltabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.ltabs button,.seg button{border:1.5px solid var(--line);background:#fff;color:var(--deep);padding:9px 16px;border-radius:30px;font:600 13px Montserrat,sans-serif;cursor:pointer;transition:.2s}
+.ltabs button.on,.seg button.on{background:var(--red);border-color:var(--red);color:#fff}
+.seg{display:inline-flex;gap:6px;margin-top:14px}
+.lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:24px;text-align:left}
+.lcard{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);transition:.3s;display:flex;flex-direction:column}
+.lcard:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(60,0,4,.14)}
+.limg{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,var(--red-dark),var(--red-deep));display:grid;place-items:center;overflow:hidden}
+.limg svg.ph{width:64px;height:64px;opacity:.35}
+.limg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.limg .phtype{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:rgba(255,255,255,.6);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.badge{position:absolute;top:12px;left:12px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;letter-spacing:.04em;z-index:1}
+.badge.oh{left:auto;right:12px;background:#fff;color:var(--red)}
+.lbody{padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.lprice{font-size:22px;font-weight:800;color:var(--deep)}
+.lprice small{font-size:13px;font-weight:600;color:var(--muted)}
+.laddr{font-weight:600;font-size:14.5px;color:var(--ink)}
+.lcomm{font-size:13px;color:var(--muted)}
+.lmeta{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--ink);margin-top:8px;padding-top:10px;border-top:1px solid var(--line)}
+.lmeta span{display:inline-flex;align-items:center;gap:5px}
+.lmeta svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:2}
+.lbrk{font-size:11px;color:var(--muted);margin-top:auto;padding-top:10px}
+/* Pre-construction projects */
+#projects{background:var(--bg)}
+.pcard .lprice{font-size:20px}
+.pcard .lprice small{font-weight:600}
+.pname{font-weight:800;font-size:17px;color:var(--deep);line-height:1.25}
+.pcard .lbrk b{color:var(--ink);font-weight:600}
+.lnote{margin:18px auto 0;max-width:760px;font-size:12px;color:var(--muted)}
+.filters{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:18px;margin-top:-26px;position:relative;z-index:2}
+.filters label{margin-bottom:4px}
+.lcount{margin-top:26px;font-size:14px;color:var(--muted);text-align:left}
+.lcount b{color:var(--deep)}
+.more{margin-top:24px}
+.lskel{height:330px;border-radius:var(--radius);background:linear-gradient(90deg,#f3eeee 25%,#faf7f7 50%,#f3eeee 75%);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+@media (max-width:980px){.lgrid{grid-template-columns:1fr 1fr}.filters{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:600px){.lgrid{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}}
+
+@media (max-width:980px){
+  nav ul{display:none;position:absolute;top:88px;left:0;right:0;background:#fff;flex-direction:column;gap:0;border-bottom:1px solid var(--line)}
+  nav ul.open{display:flex}
+  nav ul li a{display:block;padding:14px 24px}
+  .burger{display:block}
+  nav .sub{position:static;box-shadow:none;border:0;padding:0 0 0 16px;min-width:0}
+  nav li.dd:hover .sub{display:none}
+  nav li.dd.open .sub{display:flex}
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .agent-photo{order:2;height:340px}
+  .hero-text{padding:40px 0 6px}
+  .cta-row{justify-content:center}
+  .cities{grid-template-columns:1fr 1fr}
+  .about-grid,.two{grid-template-columns:minmax(0,1fr)}
+  .svc{grid-template-columns:1fr 1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  section{padding:44px 0}
+  .cities,.svc,.fgrid,.row,.facts{grid-template-columns:1fr}
+  .about-card{height:380px}
+  .tst{padding:24px 20px}
+  /* phone: header logo, compact name */
+  .brand{gap:10px}
+  .brand .ghr{display:block;padding-left:10px;margin-left:0;border-left-width:1px}
+  .brand .ghr img{height:36px}
+  .brand .nm{font-size:16px}
+  /* phone: two city cards per row */
+  .cities{grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+  .city{height:132px;padding:14px}
+  .city h3{font-size:17px}
+  .city p{font-size:11px}
+  .city .go{top:10px;right:10px;width:30px;height:30px}
+  /* phone: projects and latest listings swipe sideways */
+  #projGrid,#latestGrid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:20px -24px 0;padding:4px 24px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #projGrid::-webkit-scrollbar,#latestGrid::-webkit-scrollbar{display:none}
+  #projGrid > .lcard,#latestGrid > .lcard,#latestGrid > .lskel,#projGrid > .lskel{flex:0 0 84%;scroll-snap-align:center}
+  .lcard:hover{transform:none}
+  /* phone: easier-to-read review, tighter panels */
+  .tst p{font-size:15px;text-align:left}
+  .panel{padding:26px 20px}
+  .result b{font-size:26px}
+}
+@media (max-width:420px){
+  .brand .bar,.brand .ds{display:none}
+  .brand .nm{font-size:15px;line-height:1.15;max-width:92px}
+  .brand .ghr img{height:32px}
+  .wrap{padding:0 16px}
+  #projGrid,#latestGrid{margin:18px -16px 0;padding:4px 16px 14px}
+}
+</style>
+</head>
+<body data-theme="ghr">
+
+<header>
+  <div class="wrap nav">
+    <a href="#home" class="brand">
+      <span class="bar"></span>
+      <span>
+        <div class="nm"><b data-k="firstName"></b> <span data-k="lastName"></span></div>
+        <div class="ds" data-k="designation"></div>
+      </span>
+      <span class="ghr"><img src="images/ghr-logo.png" alt="Get Home Realty Inc., Brokerage: A Tradition of Trust"></span>
+    </a>
+    <nav>
+      <ul id="menu">
+        <li class="dd"><a href="#home" onclick="return toggleDD(event)">Listing <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg></a>
+          <ul class="sub">
+            <li><a data-ls="For Sale">For Sale</a></li>
+            <li><a data-ls="For Lease">For Lease</a></li>
+            <li><a data-ls="For Sale" data-lt="Condo">Condos</a></li>
+            <li><a data-ls="For Sale" data-lt="Commercial">Commercial</a></li>
+            <li><a data-cat="featured">Featured Listings</a></li>
+            <li><a data-cat="openHouses">Open Houses</a></li>
+            <li><a data-cat="mapSearch">Map Search</a></li>
+          </ul>
+        </li>
+        <li class="dd"><a href="#home" onclick="return toggleDD(event)">Pre-Construction <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg></a>
+          <ul class="sub">
+            <li><a data-cat="preCon">All Projects</a></li>
+            <li><a data-cat="featuredPreCon">Featured Projects</a></li>
+          </ul>
+        </li>
+        <li><a href="#about-me">About Me</a></li>
+        <li><a href="#contact-me">Contact Me</a></li>
+      </ul>
+    </nav>
+    <button class="burger" aria-label="Menu" onclick="document.getElementById('menu').classList.toggle('open')"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home" style="padding:0" data-view="home">
+  <svg class="sky" id="sky" viewBox="0 0 1600 640" preserveAspectRatio="xMidYMax slice"></svg>
+  <div class="shade"></div>
+  <div class="wrap hero-inner">
+    <div class="agent-photo" data-photo></div>
+    <div class="hero-text">
+      <div class="hi">Your Real Estate Partner</div>
+      <h1><span data-k="firstName"></span> <b data-k="lastName"></b></h1>
+      <div class="role"><span data-k="designation"></span> · Get Home Realty Inc.</div>
+      <div class="areas">Serving <span data-k="areasText"></span></div>
+      <div class="cta-row">
+        <a class="btn btn-light" data-href="tel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span data-k="phone"></span></a>
+        <a class="btn btn-primary" data-href="mailto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg><span data-k="email"></span></a>
+        <a class="btn btn-ghost" href="#contact-me">Free Consultation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTY FINDER -->
+<section id="finder" data-view="home">
+  <div class="wrap center">
+    <span class="eyebrow">Property Finder</span>
+    <h2 class="sec">Find homes in the communities I serve</h2>
+    <p class="lead">Browse live listings by city, or search any address, neighbourhood or MLS® number.</p>
+    <form class="finder-bar" onsubmit="event.preventDefault();openSearch(this.q.value)">
+      <input name="q" placeholder="City, neighbourhood, address or MLS® #">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <div class="cities" id="cities"></div>
+    <p class="note">Live MLS® listings open on gethomerealty.ca · <a data-cat="mapSearch" style="color:var(--accent);font-weight:600">Map search</a> · <a data-cat="homeWorth" style="color:var(--accent);font-weight:600">What&rsquo;s my home worth?</a></p>
+  </div>
+</section>
+
+<!-- FEATURED PRE-CONSTRUCTION PROJECTS (from gethomerealty.ca) -->
+<section id="projects" data-view="home">
+  <div class="wrap center">
+    <span class="eyebrow">Pre-Construction</span>
+    <h2 class="sec">Featured projects</h2>
+    <p class="lead">New homes, towns and condos from top builders. Register early for floor plans, pricing and VIP access.</p>
+    <div class="lgrid" id="projGrid"></div>
+    <a class="btn btn-primary more" data-cat="featuredPreCon">View all projects</a>
+  </div>
+</section>
+
+<section class="page-banner" data-view="about-me contact-me listings"><div class="wrap"><h1 id="bannerTitle"></h1><p id="bannerSub"></p></div></section>
+
+<!-- LATEST LISTINGS (live MLS®) -->
+<section id="latest" data-view="home">
+  <div class="wrap center">
+    <span class="eyebrow">Live MLS&reg; Listings</span>
+    <h2 class="sec">Latest homes in my communities</h2>
+    <div class="ltabs" id="latestTabs"></div>
+    <div class="seg" id="latestSeg"><button class="on" data-s="For Sale">For Sale</button><button data-s="For Lease">For Lease</button></div>
+    <div class="lgrid" id="latestGrid"></div>
+    <a class="btn btn-primary more" href="#listings">View all listings</a>
+  </div>
+</section>
+
+<!-- LISTINGS PAGE -->
+<section id="listingsPage" data-view="listings" style="padding-top:0;background:var(--bg)">
+  <div class="wrap">
+    <form class="filters" id="lf" onsubmit="event.preventDefault()">
+      <div><label>Area</label><select name="city" id="lfCity"></select></div>
+      <div><label>Status</label><select name="status"><option>For Sale</option><option>For Lease</option></select></div>
+      <div><label>Type</label><select name="type"><option value="">All types</option><option>Residential</option><option>Condo</option><option>Commercial</option></select></div>
+      <div><label>Min price</label><input name="min" type="number" min="0" step="10000" placeholder="Any"></div>
+      <div><label>Max price</label><input name="max" type="number" min="0" step="10000" placeholder="Any"></div>
+      <div><label>Beds</label><select name="beds"><option value="">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option><option value="5">5+</option></select></div>
+    </form>
+    <div class="lcount" id="lcount"></div>
+    <div class="lgrid" id="listGrid"></div>
+    <div class="center"><button class="btn btn-light more" id="moreBtn" style="border:1.5px solid var(--line)">Load more listings</button></div>
+    <p class="lnote center">Listing information is provided via the MLS&reg; System and is deemed reliable but not guaranteed. Each listing shows its listing brokerage. Data supplied through Get Home Realty Inc., Brokerage.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" data-view="home about-me">
+  <div class="wrap about-grid">
+    <div class="about-card">
+      <div class="ph" data-photo></div>
+      <div class="tag"><b>Get Home Realty Inc.</b>A Tradition of Trust</div>
+    </div>
+    <div class="about-text">
+      <span class="eyebrow">Who Am I</span>
+      <h2 class="sec">Hi, I'm <span data-k="firstName"></span>.</h2>
+      <div id="aboutText"></div>
+      <div class="facts">
+        <div class="fact"><b data-k="areasCount"></b><span>Communities served</span></div>
+        <div class="fact"><b data-k="languages"></b><span>Languages spoken</span></div>
+        <div class="fact"><b>RECO</b><span>Registered professional</span></div>
+      </div>
+      <div class="cta-row"><a class="btn btn-primary" href="#contact-me">Book a free consultation</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" data-view="home about-me">
+  <div class="wrap center">
+    <span class="eyebrow">How I Can Help</span>
+    <h2 class="sec">Every move, handled end to end</h2>
+    <p class="lead">Backed by the systems and support of Get Home Realty Inc.</p>
+    <div class="svc">
+      <div class="svc-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></svg></div><h3>Buying</h3><p>Search, showings, offer strategy and negotiation through to closing day.</p></div>
+      <div class="svc-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><circle cx="17" cy="14" r="1.5"/></svg></div><h3>Selling</h3><p>Pricing analysis, staging advice, professional media and full MLS® exposure.</p></div>
+      <div class="svc-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M17 6l3 3M14 9l2 2"/></svg></div><h3>Leasing</h3><p>Tenant screening for landlords and fast, fair lease search for tenants.</p></div>
+      <div class="svc-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M9 21v-4h6v4M9 12h6"/></svg></div><h3>Pre-Construction</h3><p>Early access to new developments, assignment sales and investment guidance.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="reviews" data-view="home about-me">
+  <div class="wrap center">
+    <span class="eyebrow">Client Reviews</span>
+    <h2 class="sec">What my clients say</h2>
+    <div class="tst-wrap" id="tst"></div>
+    <div class="dots" id="dots"></div>
+  </div>
+</section>
+
+<!-- TOOLS + CONTACT -->
+<section id="tools" data-view="home contact-me">
+  <div class="wrap two" id="contact">
+    <div class="panel">
+      <h3>Get a Free Consultation</h3>
+      <div class="sub">Tell me what you're looking for and I'll get back to you within one business day.</div>
+      <form id="leadForm">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <div class="row">
+          <div><label>Full name</label><input name="name" required></div>
+          <div><label>Phone</label><input name="phone" type="tel" required></div>
+        </div>
+        <div class="field"><label>Email</label><input name="email" type="email" required></div>
+        <div class="row">
+          <div><label>I'm looking to</label><select name="intent"><option>Buy</option><option>Sell</option><option>Buy &amp; Sell</option><option>Lease</option><option>Invest / Pre-Construction</option></select></div>
+          <div><label>Preferred city</label><select name="city" id="citySel"></select></div>
+        </div>
+        <div class="field"><label>Message</label><textarea name="msg" rows="3"></textarea></div>
+        <p class="consent">By submitting this form, you agree to be contacted by <span data-k="fullName"></span> and Get Home Realty Inc. by phone, text and email about your real estate needs. You can opt out at any time.</p>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <div class="ok" id="ok">Thank you! Your request has been received.</div>
+        <div class="ok err" id="leadErr"></div>
+      </form>
+    </div>
+    <div class="panel" data-view="contact-me">
+      <h3>Contact Details</h3>
+      <div class="sub">Call, email or visit the brokerage office.</div>
+      <ul class="info-list">
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><div><b>Call</b><a data-href="tel" data-k="phone"></a></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span><div><b>Email</b><a data-href="mailto" data-k="email"></a></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><b>Office</b><span>Get Home Realty Inc., Brokerage<br>218 Export Blvd, Unit 101, Mississauga, ON<br>Office: (905) 565-9933</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Areas served</b><span data-k="areasText"></span></div></li>
+      </ul>
+    </div>
+    <div class="panel" id="mortgage" data-view="home">
+      <h3>Mortgage Calculator</h3>
+      <div class="sub">Estimate your monthly payment (Canadian semi-annual compounding).</div>
+      <div class="field"><label>Purchase price ($)</label><input id="mPrice" type="number" value="850000" min="0"></div>
+      <div class="row">
+        <div><label>Down payment (%)</label><input id="mDown" type="number" value="20" min="0" max="100"></div>
+        <div><label>Interest rate (%)</label><input id="mRate" type="number" value="4.5" step="0.05" min="0"></div>
+      </div>
+      <div class="field"><label>Amortization</label><select id="mYears"><option>15</option><option>20</option><option selected>25</option><option>30</option></select></div>
+      <div class="result"><div><small>Estimated monthly payment</small><b id="mOut">$0</b></div><div style="text-align:right"><small>Mortgage amount</small><span id="mLoan">$0</span></div></div>
+      <ul class="mbreak">
+        <li><span>Down payment</span><b id="mDownAmt">$0</b></li>
+        <li><span>Total interest</span><b id="mInt">$0</b></li>
+        <li><span>Total cost</span><b id="mTotal">$0</b></li>
+      </ul>
+      <p class="note">Estimate only. Excludes CMHC insurance, property tax and fees.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fgrid">
+    <div class="f-brand">
+      <a href="https://www.gethomerealty.ca" class="f-logo"><img src="images/ghr-logo-white.png" alt="Get Home Realty Inc., Brokerage: A Tradition of Trust"></a>
+      <div class="nm"><b data-k="firstName"></b> <span data-k="lastName"></span></div>
+      <div data-k="designation"></div>
+      <div class="socials" id="socials"></div>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a data-href="tel" data-k="phone"></a></li>
+        <li><a data-href="mailto" data-k="email"></a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Brokerage</h4>
+      <ul>
+        <li><b style="color:#fff">Get Home Realty Inc.</b></li>
+        <li>218 Export Blvd, Unit 101</li>
+        <li>Mississauga, ON</li>
+        <li>Office: <a href="tel:+19055659933">(905) 565-9933</a></li>
+        <li>WhatsApp: <a href="https://wa.me/16477831851">(647) 783-1851</a></li>
+      </ul>
+      <div class="socials" id="brokerSocials"></div>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#listings">Property Listings</a></li>
+        <li><a href="#finder">Property Finder</a></li>
+        <li><a href="#mortgage">Mortgage Calculator</a></li>
+        <li><a data-cat="lttCalc">Land Transfer Tax Calculator</a></li>
+        <li><a data-cat="homeWorth">Home Worth</a></li>
+        <li><a data-cat="listingAlerts">New Listing Alerts</a></li>
+        <li><a href="#contact-me">Contact Me</a></li>
+        <li><a href="#about-me">About Me</a></li>
+        <li><a data-cat="preCon">Pre-Construction</a></li>
+        <li><a href="https://www.gethomerealty.ca">gethomerealty.ca</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <span>© <span id="yr"></span> Get Home Realty Inc., Brokerage. All rights reserved.</span>
+    <span>The trademarks MLS®, Multiple Listing Service® and the associated logos are owned by CREA.</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   AGENT PROFILE: the only thing that changes per agent site.
+   In the multi-agent version this object is loaded from MongoDB
+   based on the domain the visitor arrives on.
+   ============================================================ */
+const DEFAULT_AGENT = {
+  slug: "anand-pericherla",           // matches gethomerealty.ca/profile/<slug>
+  firstName: "Anand",
+  lastName: "Pericherla",
+  designation: "Broker of Record",
+  phone: "+1 (647) 505-3572",
+  email: "anand.pericherla@gethomerealty.ca",
+  photo: "images/anand-pericherla.png", // image URL or uploaded photo; blank = placeholder
+  areas: ["Mississauga","Brampton","Oakville","Milton","Toronto","Vaughan"],
+  languages: "English, Hindi",
+  about: "I'm the Broker of Record at Get Home Realty Inc., helping buyers, sellers and investors across the GTA.\n\nWhether you're buying your first home, selling to move up, or adding an investment property, I'll guide you through every step with honest advice, local market knowledge and strong negotiation.",
+  instagram: "", facebook: "", linkedin: "",
+  theme: "ghr",
+  listingsApi: "api/listings.php",   // relay on the agent's domain → gethomerealty.ca live MLS® data
+  projectsApi: "api/projects.php",
+  leadApi: "api/lead.php",          // consultation form → emails the agent   // relay → gethomerealty.ca featured pre-construction projects
+  searchBase: "https://www.gethomerealty.ca/",   // GHR live MLS® search (properties?place=…&listing_status=…)
+  // Real client reviews only. Each: {name, text, about (who the review was for), stars (only if the client gave a rating), url (where it was posted)}.
+  // Verbatim (shortened with "…") from gethomerealty.ca/testimonials: the only review there that names Anand.
+  // Add Anand's own client reviews here as he collects them.
+  testimonials: [
+    { name: "Ajay Singathi", about: "Ramesh, Anand, Sridevi & the Get Home Realty team", url: "https://www.gethomerealty.ca/testimonials",
+      text: "Ramesh, Anand, Sridevi and the team at GetHomeRealty helped me purchase condo in Toronto while I was living in a different continent and was planning my move to Canada. … Get Home Realty team also helped me throughout the process including renting out my condo in my absence and helping me get in touch with a team of professionals like mortgage banker and lawyer who took care of the formalities for the deal. I am super thankful to Ramesh, Anand, Sridevi and the rest of Get Home Realty team for making this happen for me. … I would highly recommend them always! Thank you a ton!" }
+  ]
+};
+
+const AGENT = Object.assign({}, DEFAULT_AGENT);
+try { localStorage.removeItem("ghrAgent"); } catch(e){}   // clear profile values saved by the old preview editor
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* Placeholder agent figure (used until a photo is uploaded) */
+function silhouette(){
+  return `<svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
+   <defs><linearGradient id="suit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2b48"/><stop offset="1" stop-color="#0c1426"/></linearGradient></defs>
+   <path d="M20 420 C25 320 60 285 110 268 L150 300 L190 268 C240 285 275 320 280 420Z" fill="url(#suit)"/>
+   <path d="M118 268 L150 300 L182 268 L172 262 L150 280 L128 262Z" fill="#f4f4f4"/>
+   <path d="M150 300 L142 312 L150 380 L158 312Z" fill="var(--accent)"/>
+   <path d="M150 300 L130 268 L108 270 L132 330Z" fill="#16223b"/><path d="M150 300 L170 268 L192 270 L168 330Z" fill="#16223b"/>
+   <rect x="132" y="225" width="36" height="45" rx="12" fill="#c58f6e"/>
+   <ellipse cx="150" cy="170" rx="56" ry="66" fill="#d29d7b"/>
+   <path d="M94 165 C90 105 130 88 152 90 C185 90 212 110 206 165 C200 140 185 128 160 126 C130 124 104 135 94 165Z" fill="#231a16"/>
+   <text x="150" y="410" text-anchor="middle" font-family="Montserrat" font-size="13" fill="rgba(255,255,255,.55)">Upload agent photo</text>
+  </svg>`;
+}
+
+/* Generated dusk skyline (no external images) */
+function drawSky(){
+  let seed = 7; const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+  let s = `<defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1a33"/><stop offset=".55" stop-color="#243b66"/>
+      <stop offset=".82" stop-color="#7d5a6b"/><stop offset="1" stop-color="#d79a63"/></linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".9" r=".5"><stop offset="0" stop-color="#f3c27a" stop-opacity=".55"/><stop offset="1" stop-color="#f3c27a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="640" fill="url(#g)"/><rect width="1600" height="640" fill="url(#glow)"/>`;
+  for(let i=0;i<70;i++) s += `<circle cx="${rnd()*1600}" cy="${rnd()*260}" r="${rnd()*1.3+.3}" fill="#fff" opacity="${rnd()*.6+.2}"/>`;
+  const layer = (base, minH, maxH, color, win) => {
+    let x = -20, out = "";
+    while(x < 1620){
+      const w = 34 + rnd()*70, h = minH + rnd()*(maxH-minH);
+      out += `<rect x="${x}" y="${base-h}" width="${w}" height="${h}" fill="${color}"/>`;
+      if(rnd()>.6) out += `<rect x="${x+w*.35}" y="${base-h-18}" width="${w*.3}" height="18" fill="${color}"/>`;
+      if(win) for(let wy=base-h+12; wy<base-10; wy+=16) for(let wx=x+7; wx<x+w-9; wx+=12)
+        if(rnd()>.72) out += `<rect x="${wx}" y="${wy}" width="5" height="7" fill="#f6d58e" opacity="${.5+rnd()*.5}"/>`;
+      x += w + 2;
+    }
+    return out;
+  };
+  s += layer(640, 120, 300, "#2a3d63", false);
+  // landmark tower
+  s += `<g fill="#18284a"><rect x="1255" y="140" width="10" height="500"/><path d="M1245 640 L1260 300 L1275 640Z"/>
+        <ellipse cx="1260" cy="300" rx="26" ry="12"/><rect x="1247" y="292" width="26" height="22" rx="6"/>
+        <rect x="1254" y="210" width="12" height="16" rx="4"/></g><circle cx="1260" cy="138" r="2.5" fill="#ff5a6a"/>`;
+  s += layer(640, 60, 230, "#121e38", true);
+  $("#sky").innerHTML = s;
+}
+
+/* City card photos: sample pre-construction renderings from gethomerealty.ca projects in each city.
+   Cities not listed here fall back to the drawn skyline. */
+const CITY_IMG = {
+  mississauga:"images/cities/mississauga.jpg",  // Riverbank Place
+  brampton:"images/cities/brampton.jpg",        // Primont Place Condos
+  oakville:"images/cities/oakville.jpg",        // The Aristocrat Condos
+  milton:"images/cities/milton.jpg",            // Elements Condos
+  toronto:"images/cities/toronto.jpg",          // Spirit Residences
+  vaughan:"images/cities/vaughan.jpg"           // Collection on 27
+};
+function cityArt(i, city){
+  const hues = [["#7E0A10","#E31B23"],["#5c060b","#B5121B"],["#7E0A10","#E31B23"],["#5c060b","#B5121B"],["#7E0A10","#E31B23"],["#5c060b","#B5121B"]][i%6];
+  const photo = CITY_IMG[String(city||"").trim().toLowerCase()];
+  if(photo) return `<img class="bg" src="${esc(photo)}" alt="" loading="lazy">
+    <span class="tint" style="background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0) 62%),linear-gradient(135deg,${hues[0]}b3,${hues[1]}33)"></span>`;
+  let b = ""; let x = 0, k = i*31+5;
+  const r = () => (k = (k*9301+49297)%233280)/233280;
+  while(x < 400){ const w = 20+r()*40, h = 30+r()*90; b += `<rect x="${x}" y="${190-h}" width="${w}" height="${h}" fill="rgba(0,0,0,.28)"/>`; x += w+3; }
+  return `<svg class="bg" viewBox="0 0 400 190" preserveAspectRatio="none"><defs><linearGradient id="c${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${hues[0]}"/><stop offset="1" stop-color="${hues[1]}"/></linearGradient></defs><rect width="400" height="190" fill="url(#c${i})"/>${b}<rect width="400" height="190" fill="url(#c${i})" opacity=".15"/></svg>`;
+}
+
+function searchUrl(q){ return withSource("properties?place=" + encodeURIComponent(q)); }
+/* Listing menu: paths on the GHR listings site (adjust once the MLS® search pages exist) */
+const LISTING_PATHS = {               // live pages on gethomerealty.ca
+  forSale:"properties?listing_status=For%20Sale", forLease:"properties?listing_status=For%20Lease",
+  condo:"properties?property_type=Condo", commercial:"properties?property_type=Commercial",
+  featured:"featured-properties", openHouses:"open-house-properties", mapSearch:"map-search",
+  preCon:"pre-construction", featuredPreCon:"featured-pre-construction",
+  homeWorth:"show-my-property-value", listingAlerts:"new-listing-alert",
+  mortgageCalc:"calculator/mortgage-calculator", lttCalc:"calculator/land-transfer-tax-calculator"
+};
+function withSource(path){ return AGENT.searchBase.replace(/\/?$/,"/") + path + (path.includes("?") ? "&" : "?") + "source=" + encodeURIComponent(AGENT.slug); }
+function catUrl(cat){ return withSource(LISTING_PATHS[cat]); }
+function toggleDD(e){ if(innerWidth <= 980){ e.preventDefault(); e.currentTarget.parentNode.classList.toggle("open"); } return innerWidth > 980 ? true : false; }
+
+
+/* ============================================================
+   LIVE MLS® LISTINGS
+   On the hosted agent site, AGENT.listingsApi points at the relay
+   file (api/listings.php) on the agent's own domain, which fetches
+   from gethomerealty.ca. Where that isn't reachable (e.g. this
+   preview) the page falls back to a saved snapshot.
+   ============================================================ */
+const SNAPSHOT_DATE = "11 Nov 2026";
+const SNAPSHOT = [["W14169154","217-28 Ann Street 217, Mississauga, ON","Mississauga","Port Credit",489000,2,null,"2","600-699","Condo Apt","For Sale","28-ann-street-217-mississauga-on-w14169154","THE GREENHEART GROUP",0,"2026-11-11","condo/"],["W14168956","3637 Chiplow Road, Mississauga, ON","Mississauga","Applewood",999900,4,null,"2","1500-2000","Detached","For Sale","3637-chiplow-road-mississauga-on-w14168956","RE/MAX REALTY SPECIALISTS INC.",0,"2026-11-11","residential/"],["W14168912","79-6730 Falconer Drive 79, Mississauga, ON","Mississauga","Streetsville",589000,3,null,"2","1200-1399","Condo Townhouse","For Sale","6730-falconer-drive-79-mississauga-on-w14168912","REAL BROKER ONTARIO LTD.",0,"2026-11-11","condo/"],["W14168886","4353 Brandon Gate Drive, Mississauga, ON","Mississauga","Malton",649900,3,null,"2","1100-1500","Semi-Detached","For Sale","4353-brandon-gate-drive-mississauga-on-w14168886","RE/MAX GOLD REALTY INC.",0,"2026-11-11","residential/"],["W14169124","25-1400 Winding Trail 25, Mississauga, ON","Mississauga","Applewood",3049,3,null,"2","1400-1599","Condo Townhouse","For Lease","1400-winding-trail-25-mississauga-on-w14169124","HOMEWISE REAL ESTATE",0,"2026-11-11","condo/"],["W14169102","4-1350 Winding Trail 4, Mississauga, ON","Mississauga","Applewood",3499,5,null,"2","1600-1799","Condo Townhouse","For Lease","1350-winding-trail-4-mississauga-on-w14169102","HOMEWISE REAL ESTATE",0,"2026-11-11","condo/"],["W14168976","1102-349 Rathburn Road W 1102, Mississauga, ON","Mississauga","City Centre",2200,1,null,"1","500-599","Condo Apt","For Lease","349-rathburn-road-w-1102-mississauga-on-w14168976","RE/MAX REAL ESTATE CENTRE INC.",0,"2026-11-11","condo/"],["W14168854","1613-1 Fairview Road E 1613, Mississauga, ON","Mississauga","Mississauga Valleys",2200,1,null,"1","500-599","Condo Apt","For Lease","1-fairview-road-e-1613-mississauga-on-w14168854","FIRST CLASS REALTY INC.",0,"2026-11-11","condo/"],["W14169272","4 Nostalgia Court, Brampton, ON","Brampton","Fletcher's Creek Village",799999,3,null,"3","1500-2000","Semi-Detached","For Sale","4-nostalgia-court-brampton-on-w14169272","HOMELIFE/MIRACLE REALTY LTD",0,"2026-11-11","residential/"],["W14168688","7 Braydon Boulevard, Brampton, ON","Brampton","Vales of Castlemore",1399999,5,3,"6","3500-5000","Detached","For Sale","7-braydon-boulevard-brampton-on-w14168688","RE/MAX EXCEL TITAN",0,"2026-11-10","residential/"],["W14168426","2-38 Regan Road 2, Brampton, ON","Brampton","Northwest Sandalwood Parkway",899999,null,null,null,"1760","Industrial","For Sale","38-regan-road-2-brampton-on-w14168426","RE/MAX REALTY SPECIALISTS INC.",0,"2026-11-10","commercial/"],["W14168048","1603-30 Malta Avenue 1603, Brampton, ON","Brampton","Fletcher's Creek South",479000,3,null,"2","1400-1599","Condo Apt","For Sale","30-malta-avenue-1603-brampton-on-w14168048","REAL BROKER ONTARIO LTD.",0,"2026-11-10","condo/"],["W14169144","31 Peak Drive, Brampton, ON","Brampton","Credit Valley",4100,5,null,"4","2500-3000","Detached","For Lease","31-peak-drive-brampton-on-w14169144","HOMELIFE SUPERSTARS REAL ESTATE LIMITED",0,"2026-11-11","residential/"],["W14169100","Room-30 Iguana Terrace Room, Brampton, ON","Brampton","Northwest Brampton",1000,1,null,"1","< 700","Detached","For Lease","30-iguana-terrace-room-brampton-on-w14169100","ROYAL LEPAGE MEADOWTOWNE REALTY",0,"2026-11-11","residential/"],["W14169078","Main & Upper Level-1 Orangeblossom Trail Main & Upper Level, Brampton, ON","Brampton","Credit Valley",3599,5,null,"4","2500-3000","Detached","For Lease","1-orangeblossom-trail-main-upper-level-brampton-on-w14169078","HOMELIFE/MIRACLE REALTY LTD",0,"2026-11-11","residential/"],["W14169002","Bsmt-106 Dolobram Trail Bsmt, Brampton, ON","Brampton","Northwest Brampton",1499,2,null,"1","2000-2500","Semi-Detached","For Lease","106-dolobram-trail-bsmt-brampton-on-w14169002","HOMELIFE/MIRACLE REALTY LTD",0,"2026-11-11","residential/"],["W14167526","3316 Azam Way, Oakville, ON","Oakville","Glenorchy",909000,3,null,"3","1500-2000","Att/Row/Twnhouse","For Sale","3316-azam-way-oakville-on-w14167526","RE/MAX HALLMARK REALTY LTD.",0,"2026-11-11","residential/"],["W14168964","384 Ashbury Road, Oakville, ON","Oakville","West",1399000,3,1,"2","1100-1500","Detached","For Sale","384-ashbury-road-oakville-on-w14168964","GLOBAL BRICKS EXECUTIVE HOMES REALTY",0,"2026-11-11","residential/"],["W14168862","1268 Kestell Boulevard, Oakville, ON","Oakville","Joshua Creek",2168000,5,1,"5","2500-3000","Detached","For Sale","1268-kestell-boulevard-oakville-on-w14168862","ROYAL LEPAGE SIGNATURE REALTY",0,"2026-11-11","residential/"],["W14168368","Ph2-1905 Pilgrims Way Ph2, Oakville, ON","Oakville","Glen Abbey",968000,2,null,"2","1400-1599","Condo Apt","For Sale","1905-pilgrims-way-ph2-oakville-on-w14168368","Royal LePage Real Estate Associates, Bradica Group",0,"2026-11-10","condo/"],["W14168598","324-3008 William Cutmore Boulevard N 324, Oakville, ON","Oakville","Joshua Meadows",2299,1,null,"1","500-599","Condo Apt","For Lease","3008-william-cutmore-boulevard-n-324-oakville-on-w14168598","HOMELIFE/MIRACLE REALTY LTD",0,"2026-11-10","condo/"],["W14167856","1227-2485 Taunton Road 1227, Oakville, ON","Oakville","River Oaks",2400,1,null,"1","600-699","Condo Apt","For Lease","2485-taunton-road-1227-oakville-on-w14167856","ROYAL LEPAGE REAL ESTATE SERVICES LTD.",0,"2026-11-10","condo/"],["W14167768","389 Hardwick Common Drive, Oakville, ON","Oakville","Joshua Meadows",3700,3,null,"3","1500-2000","Att/Row/Twnhouse","For Lease","389-hardwick-common-drive-oakville-on-w14167768","RE/MAX REAL ESTATE CENTRE INC.",0,"2026-11-10","residential/"],["W14167246","1383 Wallace Road, Oakville, ON","Oakville","Queen Elizabeth",3000,null,null,null,"2.63","Land","For Lease","1383-wallace-road-oakville-on-w14167246","ROYAL LEPAGE SIGNATURE REALTY",0,"2026-11-10","commercial/"],["W14169120","313 Gillett Point, Milton, ON","Milton","Coates",979000,3,1,"3","1500-2000","Att/Row/Twnhouse","For Sale","313-gillett-point-milton-on-w14169120","RIGHT AT HOME REALTY",0,"2026-11-11","residential/"],["W14168988","10530 Fifth Line, Milton, ON","Milton","Rural Nassagaweya",2960000,4,1,"4","3000-3500","Rural Resid","For Sale","10530-fifth-line-milton-on-w14168988","REAL ESTATE ADVISORS INC.",0,"2026-11-11","residential/"],["W14168918","86-1317 Leriche Way 86, Milton, ON","Milton","Bowes",799000,3,null,"3","1100-1500","Att/Row/Twnhouse","For Sale","1317-leriche-way-86-milton-on-w14168918","ROYAL LEPAGE REAL ESTATE SERVICES LTD.",0,"2026-11-11","residential/"],["W14167690","300 Nairn Circle, Milton, ON","Milton","Scott",999999,4,null,"3","2000-2500","Semi-Detached","For Sale","300-nairn-circle-milton-on-w14167690","ROYAL LEPAGE PINNACLE REAL ESTATE",1,"2026-11-10","residential/"],["W14169282","Basement-875 Jackman Gate Basement, Milton, ON","Milton","Coates",1550,1,null,"1","1500-2000","Detached","For Lease","875-jackman-gate-basement-milton-on-w14169282","REAL ONE REALTY INC.",0,"2026-11-11","residential/"],["W14168198","312-620 Sauve Street W 312, Milton, ON","Milton","Beaty",2500,2,null,"2","800-899","Condo Apt","For Lease","620-sauve-street-w-312-milton-on-w14168198","SPECTRUM REALTY SERVICES INC.",0,"2026-11-10","condo/"],["W14167874","411-490 Gordon Krantz Avenue 411, Milton, ON","Milton","Walker",2000,1,null,"1","0-499","Condo Apt","For Lease","490-gordon-krantz-avenue-411-milton-on-w14167874","RE/MAX GOLD REALTY INC.",0,"2026-11-10","condo/"],["W14166594","709-1050 Main Street E 709, Milton, ON","Milton","Dempsey",2390,1,1,"2","700-799","Condo Apt","For Lease","1050-main-street-e-709-milton-on-w14166594","ROYAL LEPAGE CERTIFIED REALTY",0,"2026-11-10","condo/"],["C14169298","1609-18 Harbour Street Toronto, Toronto, ON","Toronto","Waterfront Communities C1",820000,2,1,"2","800-899","Condo Apt","For Sale","18-harbour-street-toronto-toronto-on-c14169298","SMART SOLD REALTY",0,"2026-11-11","condo/"],["C14169254","913-50 Mccaul Street Toronto, Toronto, ON","Toronto","Kensington-Chinatown",678000,1,1,"2","700-799","Condo Apt","For Sale","50-mccaul-street-toronto-toronto-on-c14169254","SMART SOLD REALTY",0,"2026-11-11","condo/"],["C14168982","802-89 Church Street Toronto, Toronto, ON","Toronto","Church-Yonge Corridor",550000,1,null,"1","0-499","Condo Apt","For Sale","89-church-street-toronto-toronto-on-c14168982","HOMELIFE NEW WORLD REALTY INC.",0,"2026-11-11","condo/"],["C14168958","911-771 Yonge Street Toronto, Toronto, ON","Toronto","Rosedale-Moore Park",440000,null,null,"1","0-499","Condo Apt","For Sale","771-yonge-street-toronto-toronto-on-c14168958","HOMELIFE NEW WORLD CONDOMAX REALTY INC.",0,"2026-11-11","condo/"],["C14169306","60-Colborne Street Toronto, Toronto, ON","Toronto","Church-Yonge Corridor",2500,1,null,"1","500-599","Condo Apt","For Lease","colborne-street-toronto-toronto-on-c14169306","REMAX YOUR COMMUNITY REALTY",0,"2026-11-11","condo/"],["C14169300","3806-16 Bonnycastle Street Toronto, Toronto, ON","Toronto","Waterfront Communities C8",2550,1,1,"1","600-699","Condo Apt","For Lease","16-bonnycastle-street-toronto-toronto-on-c14169300","RETREND REALTY LTD",0,"2026-11-11","condo/"],["C14169258","704-60 Berwick Avenue Toronto, Toronto, ON","Toronto","Yonge-Eglinton",2400,1,null,"1","500-599","Condo Apt","For Lease","60-berwick-avenue-toronto-toronto-on-c14169258","ANJIA REALTY",0,"2026-11-11","condo/"],["C14169242","2208-761 Bay Street Toronto, Toronto, ON","Toronto","Bay Street Corridor",2690,1,null,"1","600-699","Condo Apt","For Lease","761-bay-street-toronto-toronto-on-c14169242","RE/MAX ULTIMATE ESTATES",0,"2026-11-11","condo/"],["N14169302","604-100 Eagle Rock Way 604, Vaughan, ON","Vaughan","Rural Vaughan",968000,2,1,"3","1200-1399","Condo Apt","For Sale","100-eagle-rock-way-604-vaughan-on-n14169302","SMART SOLD REALTY",0,"2026-11-11","condo/"],["N14169288","2701-225 Commerce Street 2701, Vaughan, ON","Vaughan","Vaughan Corporate Centre",389000,1,1,"1","500-599","Condo Apt","For Sale","225-commerce-street-2701-vaughan-on-n14169288","RE/MAX REALTRON JIM MO REALTY",0,"2026-11-11","condo/"],["N14169250","28 Sylwood Crescent, Vaughan, ON","Vaughan","Maple",1279000,3,null,"4","1500-2000","Detached","For Sale","28-sylwood-crescent-vaughan-on-n14169250","RE/MAX REALTRON REALTY INC.",0,"2026-11-11","residential/"],["N14169034","82 Saint Damian Avenue, Vaughan, ON","Vaughan","Vellore Village",1149000,3,null,"3","1100-1500","Detached","For Sale","82-saint-damian-avenue-vaughan-on-n14169034","HOMELIFE/BAYVIEW REALTY INC.",0,"2026-11-11","residential/"],["N14168746","18-80 Bass Pro Mills Drive 18, Vaughan, ON","Vaughan","Concord",18,null,null,null,"1520","Industrial","For Lease","80-bass-pro-mills-drive-18-vaughan-on-n14168746","NORDALE REALTY & ASSOCIATES INC.",0,"2026-11-10","commercial/"],["N14168586","2515-8960 Jane Street 2515, Vaughan, ON","Vaughan","Vellore Village",2750,2,null,"3","800-899","Condo Apt","For Lease","8960-jane-street-2515-vaughan-on-n14168586","FOREST HILL REAL ESTATE INC.",0,"2026-11-10","condo/"],["N14168504","517-20 North Park Road 517, Vaughan, ON","Vaughan","Beverley Glen",2250,1,null,"1","500-599","Condo Apt","For Lease","20-north-park-road-517-vaughan-on-n14168504","SUTTON GROUP-ADMIRAL REALTY INC.",0,"2026-11-10","condo/"],["N14168376","1 Kootenay Ridge, Vaughan, ON","Vaughan","Rural Vaughan",4500,3,2,"3","1500-2000","Detached","For Lease","1-kootenay-ridge-vaughan-on-n14168376","KELLER WILLIAMS EMPOWERED REALTY",0,"2026-11-10","residential/"]];
+const IMG_BASE = "https://cdn.agentroof.com/trreb/";
+const normSnap = r => ({ ml:r[0], addr:r[1], city:r[2], community:r[3], price:r[4], bed:r[5], bedPlus:r[6], bath:r[7], sqft:r[8],
+  type:r[9], status:r[10], slug:r[11], brokerage:r[12], openHouse:!!r[13], added:r[14], img: r[15] ? IMG_BASE + r[15] + "Photo" + r[0] + "-1.jpeg" : "" });
+const TYPE_OF = t => /condo/i.test(t) ? "Condo" : /industrial|commercial|office|retail|land|store|investment/i.test(t) ? "Commercial" : "Residential";
+
+let usingSnapshot = false;
+async function fetchListings(f){
+  const qs = new URLSearchParams({ page: f.page || 1, status: f.status || "For Sale" });
+  if(f.city) qs.set("city", f.city); if(f.type) qs.set("type", f.type);
+  if(f.min) qs.set("min", f.min); if(f.max) qs.set("max", f.max); if(f.beds) qs.set("beds", f.beds);
+  try{
+    if(!AGENT.listingsApi) throw 0;
+    const r = await fetch(AGENT.listingsApi + "?" + qs, {headers:{Accept:"application/json"}});
+    if(!r.ok) throw 0;
+    const j = await r.json(); usingSnapshot = false; return j;   // {total, page, last_page, items:[normalized]}
+  }catch(e){
+    usingSnapshot = true;
+    let items = SNAPSHOT.map(normSnap).filter(x => x.status === (f.status||"For Sale"));
+    if(f.city) items = items.filter(x => x.city === f.city);
+    if(f.type) items = items.filter(x => TYPE_OF(x.type) === f.type);
+    if(f.min) items = items.filter(x => x.price >= +f.min);
+    if(f.max) items = items.filter(x => x.price <= +f.max);
+    if(f.beds) items = items.filter(x => (x.bed||0) >= +f.beds);
+    const per = 12, page = f.page || 1;
+    return { total: items.length, page, last_page: Math.max(1, Math.ceil(items.length/per)), items: items.slice((page-1)*per, page*per) };
+  }
+}
+function cleanAddr(a){ const m = a.match(/^(.+?)-(.+?) \1, (.*)$/); return m ? `${m[2]} #${m[1]}, ${m[3]}` : a; }
+const ICON = {
+  bed:'<svg viewBox="0 0 24 24"><path d="M3 18V7M3 13h18v5M21 18v-3a3 3 0 0 0-3-3h-7v1"/><circle cx="7" cy="10" r="1.5"/></svg>',
+  bath:'<svg viewBox="0 0 24 24"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2"/></svg>',
+  area:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9h5V4M20 15h-5v5"/></svg>'
+};
+const HOUSE_PH = '<svg class="ph" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></svg>';
+function card(x){
+  const lease = x.status === "For Lease";
+  const price = "$" + Number(x.price||0).toLocaleString("en-CA") + (lease && x.price >= 100 ? "<small>/mo</small>" : "");
+  const beds = x.bed ? x.bed + (x.bedPlus ? "+" + x.bedPlus : "") : null;
+  const href = withSource("property-details/" + x.slug);
+  return `<a class="lcard" href="${esc(href)}">
+    <div class="limg">${HOUSE_PH}<span class="phtype">${esc(x.type||"")}</span>
+      ${x.img ? `<img src="${esc(x.img)}" alt="${esc(cleanAddr(x.addr))}" loading="lazy" onerror="this.remove()">` : ""}
+      <span class="badge">${lease ? "For Lease" : "For Sale"}</span>${x.openHouse ? '<span class="badge oh">Open House</span>' : ""}</div>
+    <div class="lbody">
+      <div class="lprice">${price}</div>
+      <div class="laddr">${esc(cleanAddr(x.addr).replace(/, ON$/,""))}</div>
+      <div class="lcomm">${esc([x.community, x.city].filter(Boolean).join(", "))}</div>
+      <div class="lmeta">${beds ? `<span>${ICON.bed}${beds} bd</span>` : ""}${x.bath ? `<span>${ICON.bath}${esc(x.bath)} ba</span>` : ""}${x.sqft ? `<span>${ICON.area}${esc(x.sqft)} sqft</span>` : ""}<span>${esc(x.type||"")}</span></div>
+      <div class="lbrk">MLS&reg; ${esc(x.ml)} · Listing brokerage: ${esc(x.brokerage||"")}</div>
+    </div></a>`;
+}
+const skel = n => Array.from({length:n}, () => '<div class="lskel"></div>').join("");
+function flag(){}
+
+/* Home: featured pre-construction projects (gethomerealty.ca featured list) */
+const PROJ_SNAPSHOT = [["Mila By Madison", "Danielle Moore Cir", "Scarborough", "Madison Homes", "Townhouse", 1049990, 1949990, "mila-by-madison-scarborough-ap00262", "https://gethomerealty.ca/uploads/gallery/PhotoAP00262-1.jpeg"], ["The Mayfield Collection", "Tweedhill Ave", "Caledon", "Rosehaven Homes", "Single Family Home", 1340921, 1859990, "roseheaven-caledon-ap00261", "https://gethomerealty.ca/uploads/gallery/PhotoAP00261-1.jpeg"], ["SouthCal @ ARISTA", "Hwy 410 & Hurontario St", "Caledon", "ARISTA Homes", "Single Family Home", 1139990, 1334990, "southcal-at-arista-caledon-ap00260", "https://gethomerealty.ca/uploads/gallery/PhotoAP00260-1.jpeg"], ["SouthCal @ ARISTA", "Hwy 410 & Hurontario St", "Caledon", "ARISTA Homes", "Townhouse", 759990, 899990, "southcal-at-arista-caledon-ap00259", "https://gethomerealty.ca/uploads/gallery/PhotoAP00259-1.jpeg"], ["The Conservancy", "Conservancy Dr", "Ottawa", "Caivan", "Single Family Home", 684947, 1144990, "the-conservancy-ottawa-ap00258", "https://gethomerealty.ca/uploads/gallery/PhotoAP00258-1.jpeg"], ["Erin Glen-Cachet", "Erin", "ON", "Cachet Homes", "Single Family Home", 929990, 1239990, "erin-glen-cachet-on-ap00257", "https://gethomerealty.ca/uploads/gallery/PhotoAP00257-1.jpeg"], ["Cachet Binbrook", "Alway Rd", "Hamilton", "Cachet Homes", "Single Family Home", 899990, 1139990, "cachet-binbrook-hamilton-ap00256", "https://gethomerealty.ca/uploads/gallery/PhotoAP00256-1.jpeg"], ["Cachet Binbrook", "Alway Rd", "Hamilton", "Cachet Homes", "Townhouse", 739990, 829990, "cachet-binbrook-hamilton-ap00255", "https://gethomerealty.ca/uploads/gallery/PhotoAP00255-1.jpeg"], ["The Heathwoods at Lambeth", "Heathwoods Ave", "London", "Ridgeview Homes", "Townhouse", 649800, null, "the-heathwoods-at-lambeth-london-ap00254", "https://gethomerealty.ca/uploads/gallery/PhotoAP00254-1.jpeg"]];
+const PROJ_SNAPSHOT_DATE = "2026-11-12";
+const projNorm = r => ({ name:r[0], addr:r[1], city:r[2], builder:r[3], type:r[4], from:r[5], to:r[6], slug:r[7], img:r[8] });
+const money = n => "$" + Number(n).toLocaleString("en-CA");
+function projCard(x){
+  const price = x.from ? `<small>From</small> ${money(x.from)}${x.to ? ` <small>to ${money(x.to)}</small>` : ""}` : "Register for pricing";
+  const where = [x.addr, x.city].filter(s => s && s !== "ON").join(", ");
+  return `<a class="lcard pcard" href="${esc(withSource("featured-pre-construction-details/" + x.slug))}">
+    <div class="limg">${HOUSE_PH}<span class="phtype">${esc(x.type||"")}</span>
+      ${x.img ? `<img src="${esc(x.img)}" alt="${esc(x.name)}" loading="lazy" onerror="this.remove()">` : ""}
+      <span class="badge">Pre-Construction</span></div>
+    <div class="lbody">
+      <div class="pname">${esc(x.name)}</div>
+      <div class="lcomm">${esc(where)}</div>
+      <div class="lprice">${price}</div>
+      <div class="lmeta"><span>${esc(x.type||"")}</span></div>
+      <div class="lbrk">${x.builder ? `Builder: <b>${esc(x.builder)}</b>` : ""}</div>
+    </div></a>`;
+}
+async function loadProjects(){
+  const grid = $("#projGrid");
+  grid.innerHTML = skel(6);
+  let items;
+  try{
+    if(!AGENT.projectsApi) throw 0;
+    const r = await fetch(AGENT.projectsApi + "?limit=6", {headers:{Accept:"application/json"}});
+    if(!r.ok) throw 0;
+    items = (await r.json()).items;
+    if(!items || !items.length) throw 0;
+  }catch(e){ items = PROJ_SNAPSHOT.map(projNorm).slice(0, 6); }
+  grid.innerHTML = items.map(projCard).join("");
+}
+
+/* Home: latest listings */
+const latest = { city:"", status:"For Sale" };
+async function loadLatest(){
+  const areas = AGENT.areas.filter(Boolean);
+  if(!latest.city || !areas.includes(latest.city)) latest.city = areas[0] || "";
+  $("#latestTabs").innerHTML = areas.map(c => `<button class="${c===latest.city?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $$("#latestTabs button").forEach(b => b.onclick = () => { latest.city = b.dataset.c; loadLatest(); });
+  $$("#latestSeg button").forEach(b => { b.classList.toggle("on", b.dataset.s===latest.status); b.onclick = () => { latest.status = b.dataset.s; loadLatest(); }; });
+  $("#latestGrid").innerHTML = skel(6);
+  const r = await fetchListings({ city: latest.city, status: latest.status, page: 1 });
+  $("#latestGrid").innerHTML = r.items.slice(0,6).map(card).join("") || `<p class="lcount">No listings found right now.</p>`;
+  flag();
+}
+
+/* Listings page */
+const LF = { city:"", status:"For Sale", type:"", min:"", max:"", beds:"", page:1 };
+function syncLF(){ const f = $("#lf"); f.city.value = LF.city; f.status.value = LF.status; f.type.value = LF.type; f.min.value = LF.min; f.max.value = LF.max; f.beds.value = LF.beds; }
+async function loadList(append){
+  if(!append){ LF.page = 1; $("#listGrid").innerHTML = skel(6); }
+  const r = await fetchListings(LF);
+  const html = r.items.map(card).join("");
+  $("#listGrid").innerHTML = append ? $("#listGrid").innerHTML + html : (html || `<p class="lcount">No listings match these filters.</p>`);
+  $("#lcount").innerHTML = `<b>${Number(r.total).toLocaleString("en-CA")}</b> ${LF.status.toLowerCase()} listings${LF.city ? " in <b>" + esc(LF.city) + "</b>" : ""}`;
+  $("#moreBtn").style.display = r.page < r.last_page ? "" : "none";
+  flag();
+}
+function initListings(){
+  $("#lfCity").innerHTML = `<option value="">All areas</option>` + AGENT.areas.filter(Boolean).map(c => `<option>${esc(c)}</option>`).join("");
+  syncLF();
+  $("#lf").onchange = e => { LF[e.target.name] = e.target.value; loadList(); };
+  $("#moreBtn").onclick = () => { LF.page++; loadList(true); };
+  $$("[data-ls]").forEach(a => { a.href = "#listings"; a.onclick = () => { LF.status = a.dataset.ls; LF.type = a.dataset.lt || ""; syncLF(); if(location.hash === "#listings") loadList(); }; });
+}
+
+/* Pages: Home, About Me, Contact Me, Listings (hash routes) */
+const VIEWS = {
+  "about-me":   {title:"About Me",   sub:()=> AGENT.firstName + " " + AGENT.lastName + " · " + AGENT.designation},
+  "contact-me": {title:"Contact Me", sub:()=> "Let's talk about your next move"},
+  "listings":   {title:"Property Listings", sub:()=> "Live MLS® listings across " + (AGENT.areas.length ? AGENT.areas.join(", ") : "Ontario")}
+};
+function route(){
+  const h = location.hash.slice(1);
+  const view = VIEWS[h] ? h : "home";
+  document.querySelectorAll("[data-view]").forEach(el => el.hidden = !el.dataset.view.split(" ").includes(view));
+  document.querySelectorAll('#menu a[href^="#"]').forEach(a => a.classList.toggle("cur", a.getAttribute("href") === "#"+view && view !== "home"));
+  if(VIEWS[view]){ $("#bannerTitle").textContent = VIEWS[view].title; $("#bannerSub").textContent = VIEWS[view].sub(); }
+  const target = h && !VIEWS[h] && document.getElementById(h);
+  if(target) target.scrollIntoView({behavior:"smooth"}); else window.scrollTo(0,0);
+  if(view === "listings") loadList();
+}
+addEventListener("hashchange", route);
+
+function openSearch(q){ if(q.trim()) location.href = searchUrl(q.trim()); }
+
+function render(){
+  document.body.dataset.theme = AGENT.theme;
+  const areas = AGENT.areas.filter(Boolean);
+  const v = Object.assign({}, AGENT, {
+    fullName: AGENT.firstName + " " + AGENT.lastName,
+    areasText: areas.length > 1 ? areas.slice(0,-1).join(", ") + " & " + areas.slice(-1) : (areas[0]||"the GTA"),
+    areasCount: areas.length + "+"
+  });
+  $$("[data-k]").forEach(el => el.textContent = v[el.dataset.k] ?? "");
+  $$('[data-href="tel"]').forEach(a => a.href = "tel:" + AGENT.phone.replace(/[^\d+]/g,""));
+  $$('[data-href="mailto"]').forEach(a => a.href = "mailto:" + AGENT.email);
+  $$("[data-cat]").forEach(a => a.href = catUrl(a.dataset.cat));
+  if(VIEWS[location.hash.slice(1)]) $("#bannerSub").textContent = VIEWS[location.hash.slice(1)].sub();
+  $$("[data-photo]").forEach(el => el.innerHTML = AGENT.photo ? `<img src="${esc(AGENT.photo)}" alt="${esc(v.fullName)}">` : silhouette());
+  document.title = v.fullName + " | " + AGENT.designation + " | Get Home Realty Inc.";
+  $("#aboutText").innerHTML = AGENT.about.split(/\n+/).map(p => `<p>${esc(p)}</p>`).join("");
+  $("#cities").innerHTML = areas.map((c,i) => `<a class="city" href="${esc(searchUrl(c))}">${cityArt(i, c)}
+      <span class="go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <h3>${esc(c)}</h3><p>View homes for sale →</p></a>`).join("");
+  $("#citySel").innerHTML = areas.map(c => `<option>${esc(c)}</option>`).join("") + "<option>Other</option>";
+  // testimonials
+  const t = AGENT.testimonials.filter(x => x && x.text);
+  const items = t.length ? t : [{placeholder:true}];
+  $("#tst").innerHTML = items.map((x,i) => x.placeholder
+    ? `<div class="tst placeholder on"><div class="q">“</div><p>Client reviews will appear here. Add real reviews from past clients in the agent profile.</p><div class="who">Your clients</div></div>`
+    : `<div class="tst ${i?"":"on"}"><div class="q">“</div><p>${esc(x.text)}</p>${x.stars ? `<div class="stars">${"★".repeat(Math.max(1, Math.min(5, x.stars|0)))}</div>` : ""}<div class="who">${esc(x.name)}</div>${x.about ? `<div class="about">Review of ${esc(x.about)}${x.url ? ` · <a href="${esc(x.url)}" target="_blank" rel="noopener">gethomerealty.ca</a>` : ""}</div>` : ""}</div>`).join("");
+  $("#dots").innerHTML = items.length > 1 ? items.map((_,i) => `<button class="${i?"":"on"}" aria-label="Review ${i+1}" onclick="showT(${i})"></button>`).join("") : "";
+  // socials
+  const ic = {
+    instagram:'<svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 2c-2.7 0-3 0-4.1.1C4.3 2.3 2.3 4.3 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.2 3.6 2.2 5.6 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.6-.2 5.6-2.2 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c-.2-3.6-2.2-5.6-5.8-5.8C15 2 14.7 2 12 2z"/></svg>',
+    facebook:'<svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z"/></svg>',
+    linkedin:'<svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4z"/></svg>'
+  };
+  ic.tiktok = '<svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.9 3.8 4.1 4v3.3c-1.5 0-2.9-.4-4.1-1.2v6.1a6 6 0 1 1-6-6c.3 0 .6 0 .9.1v3.4a2.7 2.7 0 1 0 1.9 2.6V3z"/></svg>';
+  ic.youtube = '<svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9L15.5 12z"/></svg>';
+  const bs = { facebook:"https://www.facebook.com/GetHomeRealty", instagram:"https://www.instagram.com/get_home_realty_brokerage",
+    linkedin:"https://www.linkedin.com/in/get-home-realty-brokerage-946a49299", tiktok:"https://www.tiktok.com/@gethomerealty", youtube:"https://www.youtube.com/@gethomerealty7461" };
+  $("#brokerSocials").innerHTML = Object.keys(bs).map(k => `<a href="${bs[k]}" aria-label="Get Home Realty on ${k}">${ic[k]}</a>`).join("");
+  $("#socials").innerHTML = ["instagram","facebook","linkedin"].filter(k => AGENT[k]).map(k => `<a href="${esc(AGENT[k])}" aria-label="${k}">${ic[k]}</a>`).join("");
+}
+
+let tIdx = 0;
+function showT(i){ const s = $$(".tst"), d = $$("#dots button"); if(!s.length) return;
+  tIdx = (i + s.length) % s.length; s.forEach((e,j)=>e.classList.toggle("on", j===tIdx)); d.forEach((e,j)=>e.classList.toggle("on", j===tIdx)); }
+setInterval(() => { if($$(".tst").length > 1) showT(tIdx+1); }, 6000);
+
+/* Mortgage (Canadian: semi-annual compounding) */
+function calc(){
+  const P = +$("#mPrice").value || 0, d = (+$("#mDown").value || 0)/100, r = (+$("#mRate").value || 0)/100, n = +$("#mYears").value * 12;
+  const loan = P * (1 - d);
+  const i = Math.pow(1 + r/2, 1/6) - 1;
+  const pay = i ? loan * i / (1 - Math.pow(1+i, -n)) : loan / n;
+  const f = x => "$" + Math.round(x).toLocaleString("en-CA");
+  $("#mOut").textContent = f(pay); $("#mLoan").textContent = f(loan);
+  $("#mDownAmt").textContent = f(P * d);
+  $("#mInt").textContent = f(Math.max(0, pay * n - loan));
+  $("#mTotal").textContent = f(pay * n + P * d);
+}
+["#mPrice","#mDown","#mRate","#mYears"].forEach(s => $(s).addEventListener("input", calc));
+
+/* Lead form: posts to api/lead.php, which emails the enquiry to the agent */
+$("#leadForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, btn = f.querySelector('button[type="submit"]'), ok = $("#ok"), err = $("#leadErr");
+  ok.style.display = err.style.display = "none";
+  btn.disabled = true; const label = btn.textContent; btn.textContent = "Sending…";
+  try{
+    const r = await fetch(AGENT.leadApi, { method:"POST", body:new FormData(f) });
+    const j = await r.json().catch(() => ({}));
+    if(!r.ok || !j.ok) throw new Error(j.message || "");
+    ok.textContent = j.message || "Thank you! Your request has been received.";
+    ok.style.display = "block"; f.reset();
+  }catch(x){
+    err.textContent = (x && x.message) || ("Sorry, your request could not be sent. Please call " + AGENT.phone + " or email " + AGENT.email + ".");
+    err.style.display = "block";
+  }finally{ btn.disabled = false; btn.textContent = label; }
+});
+
+$("#yr").textContent = new Date().getFullYear();
+$$("#menu a:not(.dd > a)").forEach(a => a.addEventListener("click", () => $("#menu").classList.remove("open")));
+drawSky(); render(); calc(); initListings(); route(); loadLatest(); loadProjects();
+</script>
+</body>
+</html>
